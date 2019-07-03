@@ -1,0 +1,35 @@
+<AllExceptionTypes>
+
+<ExceptionType>
+<listOfLinesForException>
+Caused by: java.lang.OutOfMemoryError2: PermGen space
+</listOfLinesForException>
+<solution>
+Need to check mothers madien name 222222
+</solution>
+</ExceptionType>
+
+<ExceptionType>
+<listOfLinesForException>
+ava.lang.OutOfMemoryError: PermGen space
+</listOfLinesForException>
+<listOfLinesForException>
+java.lang.reflect.InvocationTargetException
+</listOfLinesForException>
+<solution>
+Need to check mothers madien name
+</solution>
+</ExceptionType>
+
+<ExceptionType>
+<listOfLinesForException>
+ava.lang.OutOfMemoryError: PermGen space
+</listOfLinesForException>
+<listOfLinesForException>
+java.lang.reflect.InvocationTargetException
+</listOfLinesForException>
+<solution>
+Need to check mothers madien name
+</solution>
+</ExceptionType>
+</AllExceptionTypes>

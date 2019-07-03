@@ -1,0 +1,26 @@
+&lt;AllExceptionTypes xmlns=&quot;http://www.w3dchools.com&quot;&gt;
+
+&lt;ExceptionType&gt;
+&lt;listOfLinesForException&gt;
+ava.lang.OutOfMemoryError: PermGen space
+&lt;/listOfLinesForException&gt;
+&lt;listOfLinesForException&gt;
+java.lang.reflect.InvocationTargetException
+&lt;/listOfLinesForException&gt;
+&lt;solution&gt;
+Need to check mothers madien name
+&lt;/solution&gt;
+&lt;/ExceptionType&gt;
+
+&lt;ExceptionType&gt;
+&lt;listOfLinesForException&gt;
+ava.lang.OutOfMemoryError: PermGen space
+&lt;/listOfLinesForException&gt;
+&lt;listOfLinesForException&gt;
+java.lang.reflect.InvocationTargetException
+&lt;/listOfLinesForException&gt;
+&lt;solution&gt;
+Need to check mothers madien name
+&lt;/solution&gt;
+&lt;/ExceptionType&gt;
+&lt;/AllExceptionTypes&gt;
