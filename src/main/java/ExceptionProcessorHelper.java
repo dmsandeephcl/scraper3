@@ -9,21 +9,27 @@ public class ExceptionProcessorHelper {
 
     private AllExceptionTypes allExceptionTypes = new AllExceptionTypes();
 
+    private IgnoreAllExceptionTypes ignoreAllExceptionTypes = new IgnoreAllExceptionTypes();
+
     private File xmlFilePath = null;
 
+    private File excludeExceptionXmlFilePath = null;
 
-
-    public void startProcessingMethodHolderObject(ExceptionHolder exceptionHolder) {
+    public boolean startProcessingMethodHolderObject(ExceptionHolder exceptionHolder) {
         if (getAllExceptionTypes() == null || getAllExceptionTypes().getExceptionType() != null && getAllExceptionTypes().getExceptionType().size() == 0 ) {
             if (!init()) {
-                return;
+                return false;
             }
         }
-        for (ExceptionType exceptionType : allExceptionTypes.getExceptionType()) {
+        if(isExceptionalHolderIsExcluded(exceptionHolder)){
+            return false;
+        }
+        for (ExceptionType exceptionType : getAllExceptionTypes().getExceptionType()) {
             if (exceptionType.processExcpetionHolder(exceptionHolder)) {
-                return;
+                return true;
             }
         }
+        return true;
     }
 
     private boolean init() {
@@ -51,6 +57,28 @@ public class ExceptionProcessorHelper {
 
             setAllExceptionTypes((AllExceptionTypes) jaxbUnmarshaller.unmarshal(new StringReader(errorErrorBufferString.toString())));
 
+
+            errorErrorBufferString = new StringBuffer();
+
+            fr = new BufferedReader(new FileReader(excludeExceptionXmlFilePath));
+            lineStr = null;
+            while ((lineStr = fr.readLine()) != null) {
+                errorErrorBufferString.append(lineStr);
+            }
+            fr.close();
+
+            if (errorErrorBufferString.toString().trim().length() == 0) {
+                System.err.println("Exclude exceptions Error config file is empty");
+                return false;
+            }
+
+
+            jaxbContext = JAXBContext.newInstance(IgnoreAllExceptionTypes.class);
+
+            jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+
+            setIgnoreAllExceptionTypes((IgnoreAllExceptionTypes) jaxbUnmarshaller.unmarshal(new StringReader(errorErrorBufferString.toString())));
+
             System.out.println(getAllExceptionTypes());
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,5 +100,33 @@ public class ExceptionProcessorHelper {
 
     public void setAllExceptionTypes(AllExceptionTypes allExceptionTypes) {
         this.allExceptionTypes = allExceptionTypes;
+    }
+
+    public File getExcludeExceptionXmlFilePath() {
+        return excludeExceptionXmlFilePath;
+    }
+
+    public void setExcludeExceptionXmlFilePath(File excludeExceptionXmlFilePath) {
+        this.excludeExceptionXmlFilePath = excludeExceptionXmlFilePath;
+    }
+
+    public IgnoreAllExceptionTypes getIgnoreAllExceptionTypes() {
+        return ignoreAllExceptionTypes;
+    }
+
+    public void setIgnoreAllExceptionTypes(IgnoreAllExceptionTypes ignoreAllExceptionTypes) {
+        this.ignoreAllExceptionTypes = ignoreAllExceptionTypes;
+    }
+
+    private boolean isExceptionalHolderIsExcluded(ExceptionHolder exceptionHolder){
+        String stackTrace = exceptionHolder.getStackTrace().toLowerCase();
+        for (String excludeString: ignoreAllExceptionTypes.getIgnoreExceptionType()) {
+            excludeString = excludeString.toLowerCase();
+            if(stackTrace.indexOf(excludeString) != -1){
+                    return  true;
+            }
+
+        }
+        return false;
     }
 }
